@@ -1,21 +1,24 @@
-import { View, Text, StyleSheet } from "react-native";
 import React from "react";
+import { View, SafeAreaView, StyleSheet, StatusBar } from "react-native";
 
-const CustomMainView = ({ children }) => {
+const MainView = ({ children, style, statusBarProps, ctnStyle }) => {
   return (
-    <View style={styles.container}>
-      <View style={{ flex: 1 }}>{children}</View>
-    </View>
+    <SafeAreaView style={[styles.safeArea, style]}>
+      <StatusBar {...statusBarProps} />
+      <View style={[styles.container, { paddingHorizontal: 35 }, ctnStyle]}>
+        {children}
+      </View>
+    </SafeAreaView>
   );
 };
 
-export default CustomMainView;
-
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    paddingTop: 17,
-    paddingHorizontal: 35,
-    overflow: "hidden",
   },
 });
+
+export default MainView;

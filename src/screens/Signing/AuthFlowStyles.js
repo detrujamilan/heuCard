@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import Colors from "../config/Colors";
+import Colors from "../../config/Colors";
 
 export const AuthFlowStyles = StyleSheet.create({
   headerText: {

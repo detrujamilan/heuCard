@@ -1,3 +1,4 @@
+import React, { useCallback } from "react";
 import {
   View,
   Text,
@@ -5,81 +6,106 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
 import Colors from "../config/Colors";
 import Feather from "@expo/vector-icons/Feather";
 
 const CustomTextInput = ({
   label,
   onChange,
-  keyboardType,
-  secureTextEntry,
-  value,
+  keyboardType = "default",
+  secureTextEntry = false,
+  value = "",
   eyeIconValue = false,
-  placeholder,
+  placeholder = "",
   textInputStyle,
   textLabelStyle,
   mainContainerStyle,
   showPassword,
   setShowPassword,
+  errors
 }) => {
+  const toggleShowPassword = useCallback(() => {
+    setShowPassword((prev) => !prev);
+  }, [setShowPassword]);
+
   return (
-    <>
-      <View style={mainContainerStyle}>
-        {label && (
-          <Text style={[styles.labelStyle, { textLabelStyle }]}>{label}</Text>
-        )}
+    <View style={[styles.mainContainer, mainContainerStyle]}>
+      {label && <Text style={[styles.label, textLabelStyle]}>{label}</Text>}
+      <View style={styles.inputWrapper}>
         <TextInput
-          onChange={onChange}
+          onChangeText={onChange}
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
           value={value}
-          style={[styles.textInput, { textInputStyle }]}
-          placeholderTextColor={Colors.LightGray}
+          style={[styles.input, textInputStyle]}
           placeholder={placeholder}
+          placeholderTextColor={Colors.LightGray}
+          accessibilityLabel={label}
         />
         {eyeIconValue && (
-          <TouchableOpacity activeOpacity={0.3} style={styles.eyeStyle}>
+          <TouchableOpacity
+            style={styles.eyeIcon}
+            onPress={toggleShowPassword}
+            accessibilityRole="button"
+            accessibilityLabel={showPassword ? "Hide password" : "Show password"}
+          >
             <Feather
               name={showPassword ? "eye-off" : "eye"}
               size={24}
               color="black"
-              onPress={() => setShowPassword(!showPassword)}
             />
           </TouchableOpacity>
         )}
       </View>
-    </>
+      { errors && (
+          <Text
+            style={{
+              color: Colors.errorColor,
+              fontSize: 12,
+              fontFamily: "LeagueSpartan-Regular",
+              paddingTop: 3,
+            }}
+          >
+            {errors}
+          </Text>
+        )}
+    </View>
   );
 };
 
-export default CustomTextInput;
+
+
+export default React.memo(CustomTextInput);
 
 const styles = StyleSheet.create({
-  textInput: {
-    fontFamily: "LeagueSpartan-Regular",
-    borderColor: Colors.LightGray,
-    borderWidth: 1,
-    borderRadius: 40,
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    fontSize: 16,
-    color: Colors.Charcoal,
-    width: "100%",
-  },
-  labelStyle: {
+  
+  label: {
     fontFamily: "LeagueSpartan-Regular",
     color: Colors.blackColor,
     fontSize: 16,
     marginBottom: 5,
   },
-  eyeStyle: {
-    position: "absolute",
-    right: 0,
-    top: 0,
-    bottom: 0,
+  inputWrapper: {
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    position: "relative",
+  },
+  input: {
+    fontFamily: "LeagueSpartan-Regular",
+    borderColor: Colors.LightGray,
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingVertical: 15,
     paddingHorizontal: 15,
+    fontSize: 16,
+    color: Colors.Charcoal,
+    width: "100%",
+    paddingRight: 50,
+  },
+  eyeIcon: {
+    position: "absolute",
+    right: 15,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

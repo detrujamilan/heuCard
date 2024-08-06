@@ -7,9 +7,8 @@ import {
   TouchableHighlight,
   Platform,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomTextInput from "../../common/CustomTextInput";
-import CustomMainView from "../../common/CustomMainView";
 import { SvgXml } from "react-native-svg";
 import {
   appleLogo,
@@ -17,13 +16,32 @@ import {
   googleLogo,
   heuBlueLogo,
 } from "../../assets/img/Images";
-import { AuthFlowStyles } from "../../Auth/AuthFlowStyles";
-import CustomButton from "../../common/CustomButton";
+import { AuthFlowStyles } from "./AuthFlowStyles";
+import CustomButton, { gradientColors } from "../../common/CustomButton";
+import MainView from "../../common/CustomMainView";
+import { useFormik } from "formik";
+import { loginValidation } from "../../Validation/AuthValidation";
+import Colors from "../../config/Colors";
 
 const Signing = ({ navigation }) => {
   const [visiblePassword, setVisiblePassword] = useState(false);
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: loginValidation,
+    onSubmit: (value) => {
+      console.log(value);
+    },
+  });
+
+  const { values, setFieldValue, errors, touched, handleChange, handleSubmit } =
+    formik;
+
   return (
-    <CustomMainView>
+    <MainView>
       <View>
         <SvgXml xml={heuBlueLogo} />
         <View style={{ paddingVertical: 30 }}>
@@ -32,18 +50,31 @@ const Signing = ({ navigation }) => {
             Welcome back. you’ve been missed!
           </Text>
         </View>
-        <CustomTextInput placeholder="Enter Your Email" label="Email" />
+        <CustomTextInput
+          placeholder="Enter Your Email"
+          label="Email"
+          value={values?.email}
+          onChange={handleChange("email")}
+          errors={touched.email && errors.email ? errors.email : null}
+        />
         <CustomTextInput
           mainContainerStyle={AuthFlowStyles.passwordInput}
           placeholder="Enter your password"
           label="Password"
           eyeIconValue={true}
+          value={values?.password}
+          onChange={handleChange("password")}
           showPassword={visiblePassword}
           setShowPassword={setVisiblePassword}
-          secureTextEntry={visiblePassword ? true : false}
+          secureTextEntry={!visiblePassword}
+          errors={touched.password && errors.password ? errors.password : null}
         />
-        <TouchableOpacity activeOpacity={0.5}>
-          <Text style={AuthFlowStyles.forgotPasswordText}>
+
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => navigation.navigate("forgotPassword")}
+        >
+          <Text style={[AuthFlowStyles.forgotPasswordText]}>
             Forgot password?
           </Text>
         </TouchableOpacity>
@@ -79,9 +110,13 @@ const Signing = ({ navigation }) => {
       </View>
       <CustomButton
         title="Sign In"
+        primaryColor={gradientColors}
         btnStyle={{ position: "absolute", bottom: 30 }}
+        onPress={() => {
+          handleSubmit();
+        }}
       />
-    </CustomMainView>
+    </MainView>
   );
 };
 

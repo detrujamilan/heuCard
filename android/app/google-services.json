@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "966711258252",
+    "project_id": "heucardapp-4b686",
+    "storage_bucket": "heucardapp-4b686.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:966711258252:android:23b770fe1d814a82005fa9",
+        "android_client_info": {
+          "package_name": "com.heucard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkZalO4jKCQfpTAohzTcy4H5YhYnEO9B8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

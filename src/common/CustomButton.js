@@ -3,7 +3,7 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../config/Colors";
 
-const gradientColors = [
+export const gradientColors = [
   "#0495F1",
   "#0494F1",
   "#0494F1",
@@ -39,15 +39,22 @@ const gradientColors = [
   "#0477F0",
 ];
 
-const CustomButton = ({ title, btnStyle }) => {
+const CustomButton = ({
+  title,
+  btnStyle,
+  primaryColor,
+  mainButtonCtn,
+  onPress,
+}) => {
   return (
-    <View style={{flex:1}}>
+    <View style={[mainButtonCtn, { flex: 1 }]}>
       <TouchableOpacity
         activeOpacity={0.6}
+        onPress={onPress}
         style={[styles.buttonContainer, btnStyle]}
       >
         <LinearGradient
-          colors={gradientColors}
+          colors={primaryColor}
           start={[0, 0]}
           end={[1, 0]}
           style={[styles.button]}
