@@ -1,13 +1,5 @@
-import {
-  View,
-  Text,
-  Touchable,
-  TouchableOpacity,
-  Pressable,
-  TouchableHighlight,
-  Platform,
-} from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, Text, TouchableOpacity, Platform } from "react-native";
+import React, { useCallback, useState } from "react";
 import CustomTextInput from "../../common/CustomTextInput";
 import { SvgXml } from "react-native-svg";
 import {
@@ -21,10 +13,18 @@ import CustomButton, { gradientColors } from "../../common/CustomButton";
 import MainView from "../../common/CustomMainView";
 import { useFormik } from "formik";
 import { loginValidation } from "../../Validation/AuthValidation";
-import Colors from "../../config/Colors";
+import auth from "@react-native-firebase/auth";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 const Signing = ({ navigation }) => {
   const [visiblePassword, setVisiblePassword] = useState(false);
+
+  GoogleSignin.configure({
+    webClientId:
+      "1019687821356-es236avc3l17huj61d7msrfb1nrkd98h.apps.googleusercontent.com",
+    offlineAccess: true,
+    forceCodeForRefreshToken: true,
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -33,12 +33,23 @@ const Signing = ({ navigation }) => {
     },
     validationSchema: loginValidation,
     onSubmit: (value) => {
-      console.log(value);
+      console.log("hello");
     },
   });
 
-  const { values, setFieldValue, errors, touched, handleChange, handleSubmit } =
-    formik;
+  const { values, errors, touched, handleChange, handleSubmit } = formik;
+
+  const SignInGoogle = useCallback(async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const { idToken } = await GoogleSignin.signIn();
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      await auth().signInWithCredential(googleCredential);
+      navigation.navigate("Signup");
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
 
   return (
     <MainView>
@@ -85,7 +96,7 @@ const Signing = ({ navigation }) => {
           <View style={AuthFlowStyles.borderStyle}></View>
         </View>
         <View style={AuthFlowStyles.socialIconsContainer}>
-          <TouchableOpacity activeOpacity={0.5}>
+          <TouchableOpacity activeOpacity={0.5} onPress={SignInGoogle}>
             <SvgXml xml={googleLogo} />
           </TouchableOpacity>
           {Platform.OS === "ios" && (

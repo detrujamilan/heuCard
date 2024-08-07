@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1019687821356",
+    "project_id": "heuappcard",
+    "storage_bucket": "heuappcard.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019687821356:android:1c1ddb12981b795eb53189",
+        "android_client_info": {
+          "package_name": "com.heucard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1019687821356-r8g3eoa8bbeic0nnug0jsq6s04csvroc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.heucard",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1019687821356-es236avc3l17huj61d7msrfb1nrkd98h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYww8FkVrBzfzBT6acOsIq7K1siK9hFZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1019687821356-es236avc3l17huj61d7msrfb1nrkd98h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
